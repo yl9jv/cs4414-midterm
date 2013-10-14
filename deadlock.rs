@@ -36,6 +36,7 @@ fn release_anotherLock() {
 fn update_process_1(id: uint) {
     grab_lock(id);
     println("Process 1 grabbed lock 1");
+    std::rt::io::timer::sleep(1000);
     grab_anotherLock(id);
     println("Process 1 grabbed lock 2");
     release_lock();
@@ -52,14 +53,10 @@ fn update_process_2(id: uint) {
 }
 
 fn main() {
-    let mut i: uint = 0;
-    while i < 10000 {
-	do spawn {
-	    update_process_1(1);
-	}
-	do spawn {
-	    update_process_2(2);
-	}
-	i += 1;
+    do spawn {
+	update_process_1(1);
+    }
+    do spawn {
+	update_process_2(2);
     }
 }
