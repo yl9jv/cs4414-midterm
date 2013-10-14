@@ -34,22 +34,17 @@ fn release_anotherLock() {
 }
 
 fn update_process_1(id: uint) {
-    unsafe {
-	//while (update(id + 1) != id + 1) {
-	  //  ;
-	//}
-	grab_lock(id);
-	println("Process 1 grabbed lock 1");
-	grab_anotherLock(id);
-	println("Process 1 grabbed lock 2");
-	release_lock();
-	release_anotherLock();
-    }
+    grab_lock(id);
+    println("Process 1 grabbed lock 1");
+    grab_anotherLock(id);
+    println("Process 1 grabbed lock 2");
+    release_lock();
+    release_anotherLock();
 }
 
 fn update_process_2(id: uint) {
     grab_anotherLock(id);
-    println("Process 2 grabbed lick 2");
+    println("Process 2 grabbed lock 2");
     grab_lock(id);
     println("Process 2 grabbed lock 1");
     release_anotherLock();
