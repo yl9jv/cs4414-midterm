@@ -38,23 +38,33 @@ fn update_process_1(id: uint) {
 	//while (update(id + 1) != id + 1) {
 	  //  ;
 	//}
+	grab_lock(id);
+	println("Process 1 grabbed lock 1");
 	grab_anotherLock(id);
 	println("Process 1 grabbed lock 2");
 	release_lock();
+	release_anotherLock();
     }
 }
 
 fn update_process_2(id: uint) {
+    grab_anotherLock(id);
+    println("Process 2 grabbed lick 2");
     grab_lock(id);
     println("Process 2 grabbed lock 1");
     release_anotherLock();
+    release_lock();
 }
 
 fn main() {
-    grab_lock(1);
-    grab_anotherLock(2);
-    do spawn {
-	update_process_1(1);
-	update_process_2(2);
+    let mut i: uint = 0;
+    while i < 10000 {
+	do spawn {
+	    update_process_1(1);
+	}
+	do spawn {
+	    update_process_2(2);
+	}
+	i += 1;
     }
 }
